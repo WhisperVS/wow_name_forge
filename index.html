@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>WoW Name Forge</title>
+
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#0b1020" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- iOS install -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="app">
+      <header class="top">
+        <div class="brand">
+          <div class="logo">⚒️</div>
+          <div>
+            <h1>WoW Name Forge</h1>
+            <p class="sub">Short, pronounceable names by faction, race, and class.</p>
+          </div>
+        </div>
+
+        <div class="chips">
+          <span class="chip">PWA</span>
+          <span class="chip chip2">Offline</span>
+        </div>
+      </header>
+
+      <section class="card">
+        <div class="grid">
+          <div class="field span2">
+            <div class="labelRow">
+              <label class="label">Faction</label>
+              <span class="hintInline" id="factionHint">Affects race list</span>
+            </div>
+            <div class="segmented" role="group" aria-label="Faction selection">
+              <button class="seg active" data-faction="alliance" id="fAll">Alliance</button>
+              <button class="seg" data-faction="horde" id="fHor">Horde</button>
+              <button class="seg" data-faction="both" id="fBoth">Both</button>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label" for="race">Race</label>
+            <select id="race"></select>
+          </div>
+
+          <div class="field">
+            <div class="labelRow">
+              <label class="label" for="wowClass">Class</label>
+              <span class="classDot" id="classDot" aria-hidden="true"></span>
+            </div>
+            <select id="wowClass" class="classSelect"></select>
+          </div>
+
+          <div class="field">
+            <label class="label" for="gender">Gender</label>
+            <select id="gender">
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
+
+          <div class="field span2">
+            <div class="labelRow">
+              <label class="label" for="count">How many?</label>
+              <span class="hintInline">Max 20</span>
+            </div>
+
+            <div class="quickRow">
+              <div class="quickPills" role="group" aria-label="Quick amount presets">
+                <button class="pill" data-quick="1">1</button>
+                <button class="pill active" data-quick="5">5</button>
+                <button class="pill" data-quick="10">10</button>
+                <button class="pill" data-quick="20">20</button>
+              </div>
+
+              <div class="countWrap">
+                <button class="step" id="minus" aria-label="Decrease">−</button>
+                <input id="count" type="number" min="1" max="20" value="5" inputmode="numeric" />
+                <button class="step" id="plus" aria-label="Increase">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn primary" id="generate">Forge Names</button>
+          <button class="btn" id="copy" disabled>Copy All</button>
+          <button class="btn danger" id="clear" disabled>Clear</button>
+        </div>
+
+        <div class="metaRow">
+          <div class="meta" id="meta">No names yet.</div>
+          <div class="meta small" id="meta2">Tip: change race + class for different phonetics.</div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="resultsHeader">
+          <h2>Results</h2>
+          <div class="meta small" id="rulesNote">Names are kept short (3–12 chars) and unique per batch.</div>
+        </div>
+
+        <div id="list" class="list"></div>
+
+        <footer class="footnote">
+          <span>Note: This is a fan-made generator and not affiliated with Blizzard.</span>
+        </footer>
+      </section>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("./sw.js").catch(console.error);
+        });
+      }
+    </script>
+  </body>
+</html>
